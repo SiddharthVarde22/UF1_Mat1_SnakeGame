@@ -6,24 +6,32 @@ using UnityEngine;
 public class PlayerMovements : MonoBehaviour
 {
     [SerializeField]
-    float playerSpeed = 2;
+    float playerSpeed = 5;
 
     float maximumXposition, minimumXposition, maximumYPosition, minimumYposition;
+
+    float timeToMove;
+    Vector3 lastHeadPosition;
+
+    PlayerBodyController playerSnakeBodyController;
+
+    Vector3 currentMoveDirection = Vector3.right;
 
     // Start is called before the first frame update
     void Start()
     {
-        minimumXposition = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x - (transform.localScale.x / 2);
-        maximumXposition = Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x + (transform.localScale.x / 2);
+        minimumXposition = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x;
+        maximumXposition = Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x;
 
-        minimumYposition = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).y - (transform.localScale.y / 2);
-        maximumYPosition = Camera.main.ViewportToWorldPoint(new Vector2(0, 1)).y + (transform.localScale.y / 2);
+        minimumYposition = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).y;
+        maximumYPosition = Camera.main.ViewportToWorldPoint(new Vector2(0, 1)).y;
 
-        Debug.Log("minx " + minimumXposition + " maxX " + maximumXposition + " minY " + minimumYposition + " maxY " + maximumYPosition);
+        lastHeadPosition = transform.position;
+        playerSnakeBodyController = GetComponent<PlayerBodyController>();
     }
 
 
-    // Update is called once per frame
+    //Update is called once per frame
     void Update()
     {
         MovePlayerHead();
@@ -31,7 +39,17 @@ public class PlayerMovements : MonoBehaviour
 
     void MovePlayerHead()
     {
-        transform.position += transform.right * playerSpeed * Time.deltaTime;
+        timeToMove += Time.deltaTime;
+
+        if (timeToMove >= (1 / playerSpeed))
+        {
+            lastHeadPosition = transform.position;
+            transform.position += (currentMoveDirection / 2) + (currentMoveDirection * 0.1f);
+
+            playerSnakeBodyController.MovePlayerSnakeBody(lastHeadPosition);
+
+            timeToMove = 0;
+        }
         CheckForScreenWrap();
     }
 
@@ -53,6 +71,14 @@ public class PlayerMovements : MonoBehaviour
         else if(transform.position.y <= minimumYposition)
         {
             transform.position = new Vector3(transform.position.x, maximumYPosition - 0.1f, 0);
+        }
+    }
+
+    public void ChangeMoveDirection(Vector3 nextMoveDirection)
+    {
+        if(currentMoveDirection != nextMoveDirection && currentMoveDirection != -nextMoveDirection)
+        {
+            currentMoveDirection = nextMoveDirection;
         }
     }
 }

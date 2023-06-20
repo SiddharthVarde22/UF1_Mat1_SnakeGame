@@ -2,34 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum InputMethods
+public enum Teams
 {
-    wasd,
-    arrowKeys
+    Team1,
+    Team2
 }
 
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField]
-    InputMethods inputMethod;
+    Teams playerTeam;
 
-    Vector3 targetRotation;
+    PlayerMovements playerMovements;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerMovements = GetComponent<PlayerMovements>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch(inputMethod)
+        switch(playerTeam)
         {
-            case InputMethods.wasd:
+            case Teams.Team1:
                 TakeWASDInput();
                 break;
-            case InputMethods.arrowKeys:
+            case Teams.Team2:
                 TakeArrowKeysInput();
                 break;
         }
@@ -39,27 +39,22 @@ public class PlayerInput : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.W))
         {
-            targetRotation = new Vector3(0, 0, 90);
-            ChangeHeadDirection(new Vector3(0,0,-90));
+            ChangeDirection(Vector3.up);
         }
 
         if(Input.GetKeyDown(KeyCode.S))
         {
-            targetRotation = new Vector3(0, 0, 270);
-
-            ChangeHeadDirection(new Vector3(0, 0, 90));
+            ChangeDirection(Vector3.down);
         }
 
-        if(Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            targetRotation = new Vector3(0, 0, 180);
-            ChangeHeadDirection(new Vector3(0, 0, 0));
+            ChangeDirection(Vector3.left);
         }
 
-        if(Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            targetRotation = new Vector3(0, 0, 0);
-            ChangeHeadDirection(new Vector3(0, 0, 180));
+            ChangeDirection(Vector3.right);
         }
     }
 
@@ -67,30 +62,27 @@ public class PlayerInput : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.UpArrow))
         {
-
+            ChangeDirection(Vector3.up);
         }
 
-        if(Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-
+            ChangeDirection(Vector3.down);
         }
 
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-
+            ChangeDirection(Vector3.left);
         }
 
-        if(Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-
+            ChangeDirection(Vector3.right);
         }
     }
 
-    void ChangeHeadDirection(Vector3 oppositeRotation)
+    void ChangeDirection(Vector3 direction)
     {
-        if (transform.eulerAngles != targetRotation && transform.eulerAngles != oppositeRotation)
-        {
-            transform.rotation = Quaternion.Euler(targetRotation);
-        }
+        playerMovements.ChangeMoveDirection(direction);
     }
 }
