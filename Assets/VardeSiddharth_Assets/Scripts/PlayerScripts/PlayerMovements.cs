@@ -20,11 +20,6 @@ public class PlayerMovements : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        minimumXposition = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x;
-        maximumXposition = Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x;
-
-        minimumYposition = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).y;
-        maximumYPosition = Camera.main.ViewportToWorldPoint(new Vector2(0, 1)).y;
 
         lastHeadPosition = transform.position;
         playerSnakeBodyController = GetComponent<PlayerBodyController>();

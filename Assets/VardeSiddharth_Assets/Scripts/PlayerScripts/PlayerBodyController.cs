@@ -35,20 +35,20 @@ public class PlayerBodyController : MonoBehaviour
         snakeBodyParts[0].SetPosition(lastHeadPosition);
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            AddSnakeBody();
-        }
+    //private void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        AddSnakeBody();
+    //    }
 
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            RemoveSnakeBodyPart();
-        }
-    }
+    //    if(Input.GetKeyDown(KeyCode.F))
+    //    {
+    //        RemoveSnakeBodyPart();
+    //    }
+    //}
 
-    void AddSnakeBody()
+    public void AddSnakeBody()
     {
         PlayerBodyBehaviour playerBody = Instantiate(snakeBodyToInstanciate, transform.position, Quaternion.identity).GetComponent<PlayerBodyBehaviour>();
         playerBody.SetColor(color);
@@ -56,7 +56,7 @@ public class PlayerBodyController : MonoBehaviour
         snakeBodyParts.Add(playerBody);
     }
 
-    void RemoveSnakeBodyPart()
+    public void RemoveSnakeBodyPart()
     {
         if (snakeBodyParts.Count > 0)
         {
