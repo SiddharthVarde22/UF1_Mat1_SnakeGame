@@ -14,10 +14,13 @@ public class PlayerBodyController : MonoBehaviour
     [SerializeField]
     GameObject snakeBodyToInstanciate;
 
+    PlayerMovements playerMovements;
+
     // Start is called before the first frame update
     void Start()
     {
         GetComponent<SpriteRenderer>().color = color;
+        playerMovements = GetComponent<PlayerMovements>();
     }
 
     public void MovePlayerSnakeBody(Vector3 lastHeadPosition)
@@ -35,22 +38,22 @@ public class PlayerBodyController : MonoBehaviour
         snakeBodyParts[0].SetPosition(lastHeadPosition);
     }
 
-    //private void Update()
-    //{
-    //    if(Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        AddSnakeBody();
-    //    }
-
-    //    if(Input.GetKeyDown(KeyCode.F))
-    //    {
-    //        RemoveSnakeBodyPart();
-    //    }
-    //}
-
     public void AddSnakeBody()
     {
-        PlayerBodyBehaviour playerBody = Instantiate(snakeBodyToInstanciate, transform.position, Quaternion.identity).GetComponent<PlayerBodyBehaviour>();
+        Vector3 positionToSpawn;
+        Vector3 direction = playerMovements.GetCurrentMoveDirection();
+
+        if (snakeBodyParts.Count > 0)
+        {
+            positionToSpawn = snakeBodyParts[snakeBodyParts.Count - 1].transform.position - direction - direction * 0.1f;
+        }
+        else
+        {
+
+            positionToSpawn = transform.position - direction - direction * 0.1f;
+        }
+
+        PlayerBodyBehaviour playerBody = Instantiate(snakeBodyToInstanciate, positionToSpawn, Quaternion.identity).GetComponent<PlayerBodyBehaviour>();
         playerBody.SetColor(color);
         playerBody.SetTeam(playerTeam);
         snakeBodyParts.Add(playerBody);
@@ -64,6 +67,37 @@ public class PlayerBodyController : MonoBehaviour
             snakeBodyParts.RemoveAt(snakeBodyParts.Count - 1);
 
             Destroy(partToRemove.gameObject);
+        }
+    }
+
+    public void OnSnakeDied()
+    {
+        for(int i = snakeBodyParts.Count - 1; i >= 0; i--)
+        {
+            RemoveSnakeBodyPart();
+        }
+        //Tell game manager that this player died
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        PlayerBodyController otherPlayerBodyController = null;
+        PlayerBodyBehaviour bodyThatSnakeCollidedWith = null;
+
+        if (collision.gameObject.TryGetComponent<PlayerBodyController>(out otherPlayerBodyController))
+        {
+            if (otherPlayerBodyController.playerTeam != playerTeam)
+            {
+                otherPlayerBodyController.OnSnakeDied();
+            }
+        }
+        else if (collision.gameObject.TryGetComponent<PlayerBodyBehaviour>(out bodyThatSnakeCollidedWith))
+        {
+            if (bodyThatSnakeCollidedWith.GetTeam() == playerTeam)
+            {
+                OnSnakeDied();
+            }
         }
     }
 }

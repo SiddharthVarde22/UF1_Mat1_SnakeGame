@@ -80,4 +80,9 @@ public class PlayerMovements : MonoBehaviour
             currentMoveDirection = nextMoveDirection;
         }
     }
+
+    public Vector3 GetCurrentMoveDirection()
+    {
+        return currentMoveDirection;
+    }
 }
