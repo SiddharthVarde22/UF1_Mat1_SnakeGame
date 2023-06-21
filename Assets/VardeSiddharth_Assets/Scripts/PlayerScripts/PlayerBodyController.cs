@@ -16,6 +16,8 @@ public class PlayerBodyController : MonoBehaviour
 
     PlayerMovements playerMovements;
 
+    bool hasShield = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,23 +82,31 @@ public class PlayerBodyController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void ChangeHasShield(bool value)
+    {
+        hasShield = value;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PlayerBodyController otherPlayerBodyController = null;
         PlayerBodyBehaviour bodyThatSnakeCollidedWith = null;
 
-        if (collision.gameObject.TryGetComponent<PlayerBodyController>(out otherPlayerBodyController))
+        if (hasShield == false)
         {
-            if (otherPlayerBodyController.playerTeam != playerTeam)
+            if (collision.gameObject.TryGetComponent<PlayerBodyController>(out otherPlayerBodyController))
             {
-                otherPlayerBodyController.OnSnakeDied();
+                if (otherPlayerBodyController.playerTeam != playerTeam)
+                {
+                    otherPlayerBodyController.OnSnakeDied();
+                }
             }
-        }
-        else if (collision.gameObject.TryGetComponent<PlayerBodyBehaviour>(out bodyThatSnakeCollidedWith))
-        {
-            if (bodyThatSnakeCollidedWith.GetTeam() == playerTeam)
+            else if (collision.gameObject.TryGetComponent<PlayerBodyBehaviour>(out bodyThatSnakeCollidedWith))
             {
-                OnSnakeDied();
+                if (bodyThatSnakeCollidedWith.GetTeam() == playerTeam)
+                {
+                    OnSnakeDied();
+                }
             }
         }
     }
