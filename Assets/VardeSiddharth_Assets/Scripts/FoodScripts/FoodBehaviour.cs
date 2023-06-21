@@ -15,13 +15,19 @@ public class FoodBehaviour : MonoBehaviour
     FoodType myFoodType;
     [SerializeField]
     int lenghtToChange = 1, scoreToChange = 10;
+    [SerializeField]
+    float foodLifeTime = 5f;
+
+    private void Start()
+    {
+        Destroy(gameObject, foodLifeTime);
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         PlayerBodyController playerBodyController;
         if (other.gameObject.TryGetComponent<PlayerBodyController>(out playerBodyController))
         {
-            Debug.Log("Collided with player");
             // increase or decrease player snake size according to food type
             switch (myFoodType)
             {

@@ -20,6 +20,10 @@ public class PlayerMovements : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        maximumXposition = ScreenBoundsCalculator.Instance.MaximumXPosition;
+        minimumXposition = ScreenBoundsCalculator.Instance.MinimumXPosition;
+        maximumYPosition = ScreenBoundsCalculator.Instance.MaximumYPosition;
+        minimumYposition = ScreenBoundsCalculator.Instance.MinimumYPosition;
 
         lastHeadPosition = transform.position;
         playerSnakeBodyController = GetComponent<PlayerBodyController>();

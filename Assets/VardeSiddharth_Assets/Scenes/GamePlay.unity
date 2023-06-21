@@ -123,6 +123,49 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &193165068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 193165069}
+  - component: {fileID: 193165070}
+  m_Layer: 0
+  m_Name: CreenBoundryCalculator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &193165069
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193165068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &193165070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193165068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94cf1e5cbf4272343b3a2debd51f23fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,6 +292,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f0803a2992ce8408400b3f97da6a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minimumTimeToSpawnFood: 2
+  maximumTimeToSpawnFood: 5
+  distanceToAvoidSpawningNearBoundries: 1
+  foodPrefabsToSpawn:
+  - {fileID: 597277412920547533, guid: f9c97b921de74b541b89d72cb840ba4d, type: 3}
+  - {fileID: 4457457729250086879, guid: 4acf66e3727ed514e94d443824bf0577, type: 3}
 --- !u!1001 &2778456915011324433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -256,6 +305,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 317306210, guid: 5c0a17579217c0a41b7a9b2c4044dd3e, type: 3}
+      propertyPath: screenBoundsCalculator
+      value: 
+      objectReference: {fileID: 193165070}
     - target: {fileID: 2778456915231113072, guid: 5c0a17579217c0a41b7a9b2c4044dd3e, type: 3}
       propertyPath: m_Name
       value: Player1Head

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ScreenBoundsCalculator : MonoBehaviour
 {
+    public static ScreenBoundsCalculator Instance { get; private set; }
+
     public float MaximumXPosition { get; private set; }
     public float MinimumXPosition { get; private set; }
     public float MinimumYPosition { get; private set; }
@@ -12,6 +14,14 @@ public class ScreenBoundsCalculator : MonoBehaviour
 
     private void Awake()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         CalculateBounds();
     }
 
