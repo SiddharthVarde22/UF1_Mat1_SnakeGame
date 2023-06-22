@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/VardeSiddharth_Assets/Scenes/MainMenu.unity
+    guid: 7b33691dc54ecc247ad200290cde8a2e
+  - enabled: 1
     path: Assets/VardeSiddharth_Assets/Scenes/GamePlay.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}
