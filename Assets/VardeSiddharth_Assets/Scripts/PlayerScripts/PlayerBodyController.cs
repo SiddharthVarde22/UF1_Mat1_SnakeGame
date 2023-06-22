@@ -98,15 +98,16 @@ public class PlayerBodyController : MonoBehaviour
             {
                 if (otherPlayerBodyController.playerTeam != playerTeam)
                 {
-                    otherPlayerBodyController.OnSnakeDied();
+                    //otherPlayerBodyController.OnSnakeDied();
+                    GamePlayManager.Instance.OnBothPlayerDied();
+                    GameStopBehaviour.Instance.GameStoped();
+
                 }
             }
             else if (collision.gameObject.TryGetComponent<PlayerBodyBehaviour>(out bodyThatSnakeCollidedWith))
             {
-                if (bodyThatSnakeCollidedWith.GetTeam() == playerTeam)
-                {
-                    OnSnakeDied();
-                }
+                GamePlayManager.Instance.OnPlayerDied(bodyThatSnakeCollidedWith);
+                GameStopBehaviour.Instance.GameStoped();
             }
         }
     }
