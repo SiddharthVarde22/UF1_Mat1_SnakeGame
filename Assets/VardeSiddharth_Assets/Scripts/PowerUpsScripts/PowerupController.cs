@@ -43,13 +43,17 @@ public class PowerupController : MonoBehaviour
 
     IEnumerator OnScoreBoostCollected(float time)
     {
-        isPoweredUp = true;
         //score componant
+        PlayerScore playerScore = GetComponent<PlayerScore>();
         //change score multiplier
+        playerScore.ChangeScoreMultiplier(2);
+        isPoweredUp = true;
 
         yield return new WaitForSeconds(time);
 
         //reset score multiplier
+        playerScore.ChangeScoreMultiplier(1);
+
         isPoweredUp = false;
     }
 
