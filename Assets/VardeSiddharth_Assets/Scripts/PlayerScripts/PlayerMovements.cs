@@ -17,14 +17,15 @@ public class PlayerMovements : MonoBehaviour
 
     Vector3 currentMoveDirection = Vector3.right;
 
+    float speedMultiplier = 1;
+
     // Start is called before the first frame update
     void Start()
     {
-        minimumXposition = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x;
-        maximumXposition = Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x;
-
-        minimumYposition = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).y;
-        maximumYPosition = Camera.main.ViewportToWorldPoint(new Vector2(0, 1)).y;
+        maximumXposition = ScreenBoundsCalculator.Instance.MaximumXPosition;
+        minimumXposition = ScreenBoundsCalculator.Instance.MinimumXPosition;
+        maximumYPosition = ScreenBoundsCalculator.Instance.MaximumYPosition;
+        minimumYposition = ScreenBoundsCalculator.Instance.MinimumYPosition;
 
         lastHeadPosition = transform.position;
         playerSnakeBodyController = GetComponent<PlayerBodyController>();
@@ -41,7 +42,7 @@ public class PlayerMovements : MonoBehaviour
     {
         timeToMove += Time.deltaTime;
 
-        if (timeToMove >= (1 / playerSpeed))
+        if (timeToMove >= (1 / (playerSpeed * speedMultiplier)))
         {
             lastHeadPosition = transform.position;
             transform.position += (currentMoveDirection / 2) + (currentMoveDirection * 0.1f);
@@ -80,5 +81,19 @@ public class PlayerMovements : MonoBehaviour
         {
             currentMoveDirection = nextMoveDirection;
         }
+    }
+
+    public Vector3 GetCurrentMoveDirection()
+    {
+        return currentMoveDirection;
+    }
+
+    public void ChangeSpeedIncrement(int speedToIncrease)
+    {
+        if (speedToIncrease == 0)
+        {
+            speedToIncrease = 1;
+        }
+        speedMultiplier = speedToIncrease;
     }
 }

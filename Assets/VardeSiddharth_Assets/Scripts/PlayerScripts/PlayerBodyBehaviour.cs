@@ -20,4 +20,9 @@ public class PlayerBodyBehaviour : MonoBehaviour
     {
         playerTeam = teams;
     }
+
+    public Teams GetTeam()
+    {
+        return playerTeam;
+    }
 }
